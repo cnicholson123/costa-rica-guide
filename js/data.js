@@ -288,7 +288,7 @@ CR.places = [
     tag: "Town centre stroll", region: "Atenas",
     lat: 9.9780, lon: -84.3795, drive: "In town",
     blurb: "A leafy plaza, the white parish church, ice-cream from the kiosk and the slow rhythm of a coffee town. The Monumento al Boyero celebrates the oxcart drivers who built the place.",
-    detail: ["Evenings are the time: locals promenade, the church lights up and the air drops to a perfect 22 °C."],
+    detail: ["Evenings are the time: locals promenade, the church lights up and the air drops to a perfect 72 °F."],
     links: [], hours: "Always", price: "Free",
   },
   {
@@ -389,7 +389,7 @@ CR.history = [
   },
   {
     title: "The best climate in the world?",
-    body: "Atenas's proudest claim is that National Geographic once named it the best climate on Earth. Nobody has ever produced the article, and the town's own Clima Festival (begun in 2003) cheerfully celebrates the legend rather than the citation. The underlying truth holds: at 700 m on a Pacific-facing ridge, Atenas sits below the Central Valley's cloud and above the coast's heat — mornings around 20 °C, afternoons near 29 °C, year-round.",
+    body: "Atenas's proudest claim is that National Geographic once named it the best climate on Earth. Nobody has ever produced the article, and the town's own Clima Festival (begun in 2003) cheerfully celebrates the legend rather than the citation. The underlying truth holds: at 700 m on a Pacific-facing ridge, Atenas sits below the Central Valley's cloud and above the coast's heat — mornings around 68 °F, afternoons near 84 °F, year-round.",
   },
   {
     title: "Coffee country",
@@ -478,5 +478,5 @@ CR.practical = {
     "Colones (₡) are preferred for small purchases; US dollars widely accepted at ≈₡500–520. ATMs at Banco Nacional and BCR on the Atenas park.",
     "For minor symptoms, ask a licensed pharmacist (farmacéutico) for advice. The CCSS clinic and Red Cross are in town; serious cases go to Alajuela or CIMA.",
   ],
-  pack: ["Light rain shell", "Warm layer for Poás (10 °C possible)", "Closed walking shoes + sandals", "Binoculars", "Power bank", "Small colón notes", "Dry bag for phone", "Reef-safe SPF 50", "Repellent", "Copy of passport with entry stamp"],
+  pack: ["Light rain shell", "Warm layer for Poás (50 °F possible)", "Closed walking shoes + sandals", "Binoculars", "Power bank", "Small colón notes", "Dry bag for phone", "Reef-safe SPF 50", "Repellent", "Copy of passport with entry stamp"],
 };

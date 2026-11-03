@@ -148,7 +148,7 @@
 
   function weatherFallback(msg) {
     $("[data-weather]").innerHTML = `<div class="weather-status error"><strong>Live weather unavailable.</strong> ${esc(msg)}<br><br>
-      <strong>What November normally does in Atenas:</strong> clear mornings around 19–21 °C, warm afternoons near 28–30 °C, a build of cloud after noon with a 40–60 % chance of a shower or storm between 2 and 6 pm, tapering through the month. Poás is 10–15 °C and clouds over by 10 am. The coast is 30 °C+ and humid.<br><br>
+      <strong>What November normally does in Atenas:</strong> clear mornings around 66–70 °F, warm afternoons near 82–86 °F, a build of cloud after noon with a 40–60 % chance of a shower or storm between 2 and 6 pm, tapering through the month. Poás is 50–59 °F and clouds over by 10 am. The coast is 86 °F+ and humid.<br><br>
       Official forecast: <a href="https://www.imn.ac.cr/" target="_blank" rel="noopener">IMN</a>. Reload to retry.</div>`;
     $("[data-weather-foot]").textContent = "";
   }
@@ -158,7 +158,7 @@
     const url = `https://api.open-meteo.com/v1/forecast?latitude=${pts.map((p) => p.lat).join(",")}&longitude=${pts.map((p) => p.lon).join(",")}` +
       `&current=temperature_2m,relative_humidity_2m,precipitation,weather_code,wind_speed_10m,is_day` +
       `&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_sum,precipitation_probability_max,sunrise,sunset` +
-      `&timezone=${encodeURIComponent(TZ)}&forecast_days=7`;
+      `&timezone=${encodeURIComponent(TZ)}&forecast_days=7&temperature_unit=fahrenheit`;
     const ctrl = new AbortController(); const t = setTimeout(() => ctrl.abort(), 9000);
     try {
       const r = await fetch(url, { signal: ctrl.signal });
@@ -176,11 +176,11 @@
       const [ico, desc] = wx(d.current.weather_code);
       const days = d.daily.time.map((iso, k) => {
         const [di] = wx(d.daily.weather_code[k]);
-        return `<div class="wx-day ${inTrip(iso) ? "trip" : ""}" title="${iso}"><div class="d">${dow(iso)}</div><div class="i">${di}</div><div class="hi">${Math.round(d.daily.temperature_2m_max[k])}°</div><div class="lo">${Math.round(d.daily.temperature_2m_min[k])}°</div><div class="rain">💧${d.daily.precipitation_probability_max?.[k] ?? "–"}%</div></div>`;
+        return `<div class="wx-day ${inTrip(iso) ? "trip" : ""}" title="${iso}"><div class="d">${dow(iso)}</div><div class="i">${di}</div><div class="hi">${Math.round(d.daily.temperature_2m_max[k])}°F</div><div class="lo">${Math.round(d.daily.temperature_2m_min[k])}°F</div><div class="rain">💧${d.daily.precipitation_probability_max?.[k] ?? "–"}%</div></div>`;
       }).join("");
       if (i === 0 && d.daily.sunset?.[0]) { const s = d.daily.sunset[0].slice(11, 16); const el = $("[data-sun]"); if (el) el.textContent = s; }
       return `<section class="wx ${i === 0 ? "primary" : ""}"><div class="wx-head"><h3>${esc(p.name)}</h3><small>${esc(p.sub)}</small></div>
-        <div class="wx-now"><span class="icon">${ico}</span><span class="temp">${Math.round(d.current.temperature_2m)}°</span><span class="desc">${desc}<br>Humidity ${d.current.relative_humidity_2m}% · wind ${Math.round(d.current.wind_speed_10m)} km/h${d.current.precipitation > 0 ? ` · ${d.current.precipitation} mm now` : ""}</span></div>
+        <div class="wx-now"><span class="icon">${ico}</span><span class="temp">${Math.round(d.current.temperature_2m)}°F</span><span class="desc">${desc}<br>Humidity ${d.current.relative_humidity_2m}% · wind ${Math.round(d.current.wind_speed_10m)} km/h${d.current.precipitation > 0 ? ` · ${d.current.precipitation} mm now` : ""}</span></div>
         <div class="wx-days">${days}</div></section>`;
     }).join("");
     $("[data-weather]").innerHTML = html || "";
