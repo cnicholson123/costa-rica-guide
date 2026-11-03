@@ -454,12 +454,7 @@ CR.news = [
 CR.practical = {
   emergency: [
     { label: "All emergencies (police, fire, ambulance)", value: "911", tel: "911" },
-    { label: "Red Cross ambulance", value: "911 / 128", tel: "128" },
-    { label: "Tourist Police (Policía Turística)", value: "via 911 or ICT 2299-5800", tel: "+50622995800" },
-    { label: "U.S. Embassy San José (Pavas)", value: "+506 2519-2000", tel: "+50625192000" },
-    { label: "INS roadside / accident (insurer)", value: "800-800-8000", tel: "800800800" },
-    { label: "Hospital CIMA (private, Escazú)", value: "+506 2208-1000", tel: "+50622081000" },
-    { label: "Hospital San Rafael de Alajuela (public)", value: "+506 2436-1000", tel: "+50624361000" },
+
   ],
   driving: [
     "Carry your passport or a copy with the entry stamp, your licence, and the rental papers. Police checkpoints are routine; stop, be polite, hand over documents.",
@@ -481,7 +476,7 @@ CR.practical = {
     "Sun at 10°N is fierce even when overcast: hat, SPF 50, 2 litres of water per person on hikes.",
     "Don't feed or touch wildlife. Keep food zipped at Manuel Antonio — raccoons and capuchins are expert thieves.",
     "Colones (₡) are preferred for small purchases; US dollars widely accepted at ≈₡500–520. ATMs at Banco Nacional and BCR on the Atenas park.",
-    "Pharmacies (farmacias) in Atenas can treat minor ailments without a prescription. The CCSS clinic and Red Cross are in town; serious cases go to Alajuela or CIMA.",
+    "For minor symptoms, ask a licensed pharmacist (farmacéutico) for advice. The CCSS clinic and Red Cross are in town; serious cases go to Alajuela or CIMA.",
   ],
   pack: ["Light rain shell", "Warm layer for Poás (10 °C possible)", "Closed walking shoes + sandals", "Binoculars", "Power bank", "Small colón notes", "Dry bag for phone", "Reef-safe SPF 50", "Repellent", "Copy of passport with entry stamp"],
 };
