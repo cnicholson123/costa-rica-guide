@@ -24,7 +24,7 @@
   const mapLinks = (p) => {
     const { lat, lon } = p; const q = encodeURIComponent(p.name + ", Costa Rica");
     return `<div class="maps">
-      <a href="https://www.google.com/maps/dir/?api=1&destination=${p.mapQuery ? encodeURIComponent(p.mapQuery) : `${lat},${lon}`}&travelmode=driving" target="_blank" rel="noopener">Google Maps<small>directions</small></a>
+      <a href="https://www.google.com/maps/dir/?api=1&destination=${p.mapQuery ? encodeURIComponent(p.mapQuery) : `${lat},${lon}`}${p.cats.includes("foodie") ? "&origin=Hotel%20Colinas%20del%20Sol%2C%20Atenas%2C%20Costa%20Rica" : ""}&travelmode=driving" target="_blank" rel="noopener">Google Maps<small>directions</small></a>
       <a href="https://maps.apple.com/?daddr=${p.mapQuery ? encodeURIComponent(p.mapQuery) : `${lat},${lon}`}&q=${q}" target="_blank" rel="noopener">Apple Maps<small>directions</small></a>
       <a href="https://waze.com/ul?${p.mapQuery ? `q=${encodeURIComponent(p.mapQuery)}` : `ll=${lat},${lon}`}&navigate=yes" target="_blank" rel="noopener">Waze<small>navigate</small></a>
     </div>`;
@@ -41,7 +41,7 @@
       </div>
       <div class="card-foot">
         <button class="pill more" type="button" data-open="${p.id}">Details</button>
-        <a class="pill" href="https://www.google.com/maps/dir/?api=1&destination=${p.mapQuery ? encodeURIComponent(p.mapQuery) : `${p.lat},${p.lon}`}&travelmode=driving" target="_blank" rel="noopener">Directions</a>
+        <a class="pill" href="https://www.google.com/maps/dir/?api=1&destination=${p.mapQuery ? encodeURIComponent(p.mapQuery) : `${p.lat},${p.lon}`}${p.cats.includes("foodie") ? "&origin=Hotel%20Colinas%20del%20Sol%2C%20Atenas%2C%20Costa%20Rica" : ""}&travelmode=driving" target="_blank" rel="noopener">Directions</a>
       </div>
     </article>`;
   }
