@@ -66,7 +66,8 @@
     syncStars();
   }
   function renderEat() {
-    $("[data-eat-cards]").innerHTML = CR.places.filter((p) => p.cats.includes("eat")).sort((a, b) => Number(b.cats.includes("foodie")) - Number(a.cats.includes("foodie"))).map(cardHTML).join("");
+    $("[data-sanjose-dining]").innerHTML = CR.places.filter((p) => p.diningCity === "sanjose").map(cardHTML).join("");
+    $("[data-eat-cards]").innerHTML = CR.places.filter((p) => p.cats.includes("eat") && p.diningCity !== "sanjose").sort((a, b) => Number(b.cats.includes("foodie")) - Number(a.cats.includes("foodie"))).map(cardHTML).join("");
   }
   function renderSaved() {
     const list = [...saved].map((id) => byId[id]).filter(Boolean);

@@ -29,8 +29,17 @@ ok(CR.places.some((p) => p.links?.some((l) => l.url.includes("theretreatcostaric
 ok(CR.places.some((p) => /Casita del Caf/.test(p.name)), "La Casita del Café present");
 ok(CR.practical.emergency.some((e) => e.value === "911"), "911 listed");
 
+ok(CR.places.filter(p => p.diningCity === "sanjose").map(p => p.id).sort().join() === "granodeoro,sikwa,silvestre", "San José dining has the three selected restaurants");
+const checkCurrency = (value) => {
+  if (typeof value === "string") {
+    for (const m of value.matchAll(/₡[\d,]+(?:[–-][\d,]+)?/g)) ok(value.slice(m.index + m[0].length).startsWith(" (≈US$"), "colón price includes USD: " + m[0]);
+  } else if (value && typeof value === "object") Object.values(value).forEach(checkCurrency);
+};
+checkCurrency(CR);
 // HTML sanity
 const html = readFileSync(root + "index.html", "utf8");
+checkCurrency(html);
+ok(html.includes('id="sanjose-dining"') && html.includes("data-sanjose-dining"), "dedicated San José section present");
 for (const sel of ["data-weather", "data-alerts", "data-itinerary", "data-cards", "data-eat-cards", "data-history", "data-news", "data-emergency", "data-driving", "data-safety", "data-pack", "data-saved-cards", "data-search-dialog", "data-sheet", "data-chips"]) ok(html.includes(sel), `index.html has [${sel}]`);
 ok(html.includes('name="viewport"') && html.includes("viewport-fit=cover"), "viewport meta with safe-area");
 ok(!/sk-|api[_-]?key|token/i.test(html + readFileSync(root + "js/app.js", "utf8")), "no secrets in client code");
