@@ -280,3 +280,14 @@ dialog::backdrop{background:rgba(10,20,15,.6);backdrop-filter:blur(6px)}
   .hero-copy{max-width:50vw}
   .cards{grid-template-columns:repeat(2,1fr);column-gap:env(viewport-segment-left 1 0, 24px)}
 }
+
+/* Dining is readable without opening a modal, on every screen size. */
+.dining-detail .card-body{padding:24px;gap:14px}
+.dining-detail .card-body h3{font-size:1.65rem}
+.dining-detail .card-body p{margin:0;font-size:.94rem;line-height:1.65}
+.dining-detail .card-body .kicker{font-size:.72rem}
+.dining-detail .links{display:flex;flex-wrap:wrap;gap:8px}
+.cards-eat{align-items:start}
+.tabbar{grid-template-columns:repeat(6,1fr)}
+.hero-cta{flex-wrap:wrap}
+@media(min-width:900px) and (max-width:1150px){.topnav a{padding:8px 6px;font-size:.78rem}}

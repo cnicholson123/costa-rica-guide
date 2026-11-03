@@ -60,14 +60,26 @@
     return hay.includes(filterText);
   }
   function renderCards() {
-    const list = (activeCat === "eat" ? CR.places : explorePlaces).filter(matches);
+    const list = (["eat", "foodie"].includes(activeCat) ? CR.places : explorePlaces).filter(matches);
     $("[data-cards]").innerHTML = list.map(cardHTML).join("");
     $("[data-empty]").hidden = list.length > 0;
     syncStars();
   }
+  function diningHTML(p) {
+    if (!p.cats.includes("foodie")) return cardHTML(p);
+    return `<article class="card dining-detail" data-id="${p.id}">
+      <div class="card-body"><p class="kicker">${esc(p.tag)}</p><h3>${esc(p.name)}</h3>
+      <div class="card-meta"><span>${esc(p.region)}</span><span>${esc(p.drive)}</span></div>
+      <p>${esc(p.blurb)}</p><p><strong>Cost:</strong> ${esc(p.price)}</p><p><strong>Hours:</strong> ${esc(p.hours)}</p>
+      ${(p.detail || []).map(d => `<p>${esc(d)}</p>`).join("")}
+      ${mapLinks(p)}
+      <div class="links">${(p.links || []).map(l => `<a class="pill" href="${esc(l.url)}" target="_blank" rel="noopener">${esc(l.label)} ↗</a>`).join("")}</div>
+      </div><div class="card-foot"><button class="pill" data-star="${p.id}" aria-pressed="${saved.has(p.id)}">☆ Save restaurant</button></div>
+    </article>`;
+  }
   function renderEat() {
-    $("[data-sanjose-dining]").innerHTML = CR.places.filter((p) => p.diningCity === "sanjose").map(cardHTML).join("");
-    $("[data-eat-cards]").innerHTML = CR.places.filter((p) => p.cats.includes("eat") && p.diningCity !== "sanjose").sort((a, b) => Number(b.cats.includes("foodie")) - Number(a.cats.includes("foodie"))).map(cardHTML).join("");
+    $("[data-sanjose-dining]").innerHTML = CR.places.filter((p) => p.diningCity === "sanjose").map(diningHTML).join("");
+    $("[data-eat-cards]").innerHTML = CR.places.filter((p) => p.cats.includes("eat") && p.diningCity !== "sanjose").sort((a, b) => Number(b.cats.includes("foodie")) - Number(a.cats.includes("foodie"))).map(diningHTML).join("");
   }
   function renderSaved() {
     const list = [...saved].map((id) => byId[id]).filter(Boolean);
