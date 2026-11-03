@@ -24,9 +24,9 @@
   const mapLinks = (p) => {
     const { lat, lon } = p; const q = encodeURIComponent(p.name + ", Costa Rica");
     return `<div class="maps">
-      <a href="https://www.google.com/maps/dir/?api=1&destination=${lat},${lon}&travelmode=driving" target="_blank" rel="noopener">Google Maps<small>directions</small></a>
-      <a href="https://maps.apple.com/?daddr=${lat},${lon}&q=${q}" target="_blank" rel="noopener">Apple Maps<small>directions</small></a>
-      <a href="https://waze.com/ul?ll=${lat},${lon}&navigate=yes" target="_blank" rel="noopener">Waze<small>navigate</small></a>
+      <a href="https://www.google.com/maps/dir/?api=1&destination=${p.mapQuery ? encodeURIComponent(p.mapQuery) : `${lat},${lon}`}&travelmode=driving" target="_blank" rel="noopener">Google Maps<small>directions</small></a>
+      <a href="https://maps.apple.com/?daddr=${p.mapQuery ? encodeURIComponent(p.mapQuery) : `${lat},${lon}`}&q=${q}" target="_blank" rel="noopener">Apple Maps<small>directions</small></a>
+      <a href="https://waze.com/ul?${p.mapQuery ? `q=${encodeURIComponent(p.mapQuery)}` : `ll=${lat},${lon}`}&navigate=yes" target="_blank" rel="noopener">Waze<small>navigate</small></a>
     </div>`;
   };
   const starBtn = (id) => `<button class="star" type="button" data-star="${id}" aria-pressed="${saved.has(id)}" aria-label="Save ${esc(byId[id].name)}"><svg viewBox="0 0 24 24"><path d="m12 2.5 2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4 6.1 20.5l1.2-6.5L2.5 9.4l6.6-.9z"/></svg></button>`;
@@ -41,7 +41,7 @@
       </div>
       <div class="card-foot">
         <button class="pill more" type="button" data-open="${p.id}">Details</button>
-        <a class="pill" href="https://www.google.com/maps/dir/?api=1&destination=${p.lat},${p.lon}&travelmode=driving" target="_blank" rel="noopener">Directions</a>
+        <a class="pill" href="https://www.google.com/maps/dir/?api=1&destination=${p.mapQuery ? encodeURIComponent(p.mapQuery) : `${p.lat},${p.lon}`}&travelmode=driving" target="_blank" rel="noopener">Directions</a>
       </div>
     </article>`;
   }
@@ -66,7 +66,7 @@
     syncStars();
   }
   function renderEat() {
-    $("[data-eat-cards]").innerHTML = CR.places.filter((p) => p.cats.includes("eat")).map(cardHTML).join("");
+    $("[data-eat-cards]").innerHTML = CR.places.filter((p) => p.cats.includes("eat")).sort((a, b) => Number(b.cats.includes("foodie")) - Number(a.cats.includes("foodie"))).map(cardHTML).join("");
   }
   function renderSaved() {
     const list = [...saved].map((id) => byId[id]).filter(Boolean);
