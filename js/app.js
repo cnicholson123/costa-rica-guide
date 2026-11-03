@@ -29,13 +29,15 @@
       <a href="https://waze.com/ul?${p.mapQuery ? `q=${encodeURIComponent(p.mapQuery)}` : `ll=${lat},${lon}`}&navigate=yes" target="_blank" rel="noopener">Waze<small>navigate</small></a>
     </div>`;
   };
+  const vegetarianHTML = (p) => p.vegetarian ? `<span class="diet-badge${p.vegetarian.label.includes("arrangement") ? " diet-request" : ""}"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 3C8 2 2 8 6 15c7 5 14-1 14-12Z"/><path d="m4 21 12-12"/></svg>${esc(p.vegetarian.label)}</span>` : "";
+  const vegetarianNote = (p) => p.vegetarian ? `<p class="diet-note"><strong>Vegetarian tip:</strong> ${esc(p.vegetarian.note)} <a href="${esc(p.vegetarian.source)}" target="_blank" rel="noopener">Menu/source ↗</a></p>` : "";
   const starBtn = (id) => `<button class="star" type="button" data-star="${id}" aria-pressed="${saved.has(id)}" aria-label="Save ${esc(byId[id].name)}"><svg viewBox="0 0 24 24"><path d="m12 2.5 2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4 6.1 20.5l1.2-6.5L2.5 9.4l6.6-.9z"/></svg></button>`;
 
   function cardHTML(p) {
     return `<article class="card" data-id="${p.id}">
       <div class="card-art ${artClass(p)}">${ridge}<span class="card-tag ${p.alert ? "is-alert" : ""}">${esc(p.tag)}</span>${starBtn(p.id)}</div>
       <div class="card-body">
-        <h3>${esc(p.name)}</h3>
+        <h3>${esc(p.name)}</h3>${vegetarianHTML(p)}
         <div class="card-meta"><span>${esc(p.region)}</span><span>${esc(p.drive)}</span></div>
         <p class="card-blurb">${esc(p.blurb)}</p>
       </div>
@@ -56,11 +58,11 @@
     const catOk = activeCat === "all" || p.cats.includes(activeCat);
     if (!catOk) return false;
     if (!filterText) return true;
-    const hay = [p.name, p.tag, p.region, p.blurb, ...(p.detail || [])].join(" ").toLowerCase();
+    const hay = [p.name, p.tag, p.region, p.blurb, p.vegetarian?.label, p.vegetarian?.note, ...(p.detail || [])].join(" ").toLowerCase();
     return hay.includes(filterText);
   }
   function renderCards() {
-    const list = (["eat", "foodie"].includes(activeCat) ? CR.places : explorePlaces).filter(matches);
+    const list = (["eat", "foodie", "vegetarian"].includes(activeCat) ? CR.places : explorePlaces).filter(matches);
     $("[data-cards]").innerHTML = list.map(cardHTML).join("");
     $("[data-empty]").hidden = list.length > 0;
     syncStars();
@@ -68,9 +70,9 @@
   function diningHTML(p) {
     if (!p.cats.includes("foodie")) return cardHTML(p);
     return `<article class="card dining-detail" data-id="${p.id}">
-      <div class="card-body"><p class="kicker">${esc(p.tag)}</p><h3>${esc(p.name)}</h3>
+      <div class="card-body"><p class="kicker">${esc(p.tag)}</p><h3>${esc(p.name)}</h3>${vegetarianHTML(p)}
       <div class="card-meta"><span>${esc(p.region)}</span><span>${esc(p.drive)}</span></div>
-      <p>${esc(p.blurb)}</p><p><strong>Cost:</strong> ${esc(p.price)}</p><p><strong>Hours:</strong> ${esc(p.hours)}</p>
+      <p>${esc(p.blurb)}</p>${vegetarianNote(p)}<p><strong>Cost:</strong> ${esc(p.price)}</p><p><strong>Hours:</strong> ${esc(p.hours)}</p>
       ${(p.detail || []).map(d => `<p>${esc(d)}</p>`).join("")}
       ${mapLinks(p)}
       <div class="links">${(p.links || []).map(l => `<a class="pill" href="${esc(l.url)}" target="_blank" rel="noopener">${esc(l.label)} ↗</a>`).join("")}</div>
@@ -95,9 +97,9 @@
       <div class="sheet-art ${artClass(p)}">${ridge}<span class="card-tag ${p.alert ? "is-alert" : ""}">${esc(p.tag)}</span><button class="sheet-close" type="button" data-close aria-label="Close">×</button></div>
       <div class="sheet-body">
         <p class="kicker">${esc(p.region)}</p>
-        <h2>${esc(p.name)}</h2>
+        <h2>${esc(p.name)}</h2>${vegetarianHTML(p)}
         <div class="card-meta"><span>${esc(p.drive)}</span></div>
-        <p class="blurb">${esc(p.blurb)}</p>
+        <p class="blurb">${esc(p.blurb)}</p>${vegetarianNote(p)}
         <div class="facts"><div class="fact"><b>Hours</b>${esc(p.hours || "—")}</div><div class="fact"><b>Cost</b>${esc(p.price || "—")}</div></div>
         <div class="detail">${(p.detail || []).map((d) => `<p class="${/^STATUS/.test(d) ? "status" : ""}">${esc(d)}</p>`).join("")}</div>
         ${mapLinks(p)}
@@ -205,7 +207,7 @@
   /* ---------- search ---------- */
   const dialog = $("[data-search-dialog]"), sInput = $("[data-search-input]"), sRes = $("[data-search-results]");
   const index = [
-    ...CR.places.map((p) => ({ k: "Place", n: p.name, s: p.blurb, hay: [p.name, p.tag, p.region, p.blurb, ...(p.detail || [])].join(" "), go: () => openSheet(p.id) })),
+    ...CR.places.map((p) => ({ k: "Place", n: p.name, s: p.blurb, hay: [p.name, p.tag, p.region, p.blurb, p.vegetarian?.label, p.vegetarian?.note, ...(p.detail || [])].join(" "), go: () => openSheet(p.id) })),
     ...CR.itinerary.map((d) => ({ k: d.day, n: d.title, s: d.plan.map((x) => x.text).join(" "), hay: [d.title, d.theme, ...d.plan.map((x) => x.text)].join(" "), go: () => location.hash = "#itinerary" })),
     ...CR.history.map((h) => ({ k: "History", n: h.title, s: h.body, hay: h.title + " " + h.body, go: () => location.hash = "#history" })),
     ...CR.news.map((n) => ({ k: "News · " + fmtDate(n.date), n: n.title, s: n.text, hay: [n.title, n.text, n.source].join(" "), go: () => window.open(n.url, "_blank", "noopener") })),

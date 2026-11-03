@@ -29,13 +29,18 @@ ok(CR.places.some((p) => p.links?.some((l) => l.url.includes("theretreatcostaric
 ok(CR.places.some((p) => /Casita del Caf/.test(p.name)), "La Casita del Café present");
 ok(CR.practical.emergency.some((e) => e.value === "911"), "911 listed");
 
-ok(CR.places.filter(p => p.diningCity === "sanjose").map(p => p.id).sort().join() === "granodeoro,sikwa,silvestre", "San José dining has the three selected restaurants");
+ok(CR.places.filter(p => p.diningCity === "sanjose").map(p => p.id).sort().join() === "arboldeseda,granodeoro,sikwa,silvestre", "San José dining has the selected restaurants");
 const checkCurrency = (value) => {
   if (typeof value === "string") {
     for (const m of value.matchAll(/₡[\d,]+(?:[–-][\d,]+)?/g)) ok(value.slice(m.index + m[0].length).startsWith(" (≈US$"), "colón price includes USD: " + m[0]);
   } else if (value && typeof value === "object") Object.values(value).forEach(checkCurrency);
 };
 checkCurrency(CR);
+for (const p of CR.places.filter(p => p.vegetarian)) {
+  ok(p.cats.includes("vegetarian") && p.cats.includes("eat"), `${p.id}: dietary filter matches badge`);
+  ok(p.vegetarian.note && /^https:\/\//.test(p.vegetarian.source), `${p.id}: dietary guidance has a source`);
+}
+ok(CR.places.some(p => p.vegetarian && p.diningCity === "sanjose") && CR.places.some(p => p.vegetarian && p.cats.includes("atenas")), "vegetarian choices in both dining guides");
 // HTML sanity
 const html = readFileSync(root + "index.html", "utf8");
 checkCurrency(html);

@@ -291,3 +291,9 @@ dialog::backdrop{background:rgba(10,20,15,.6);backdrop-filter:blur(6px)}
 .tabbar{grid-template-columns:repeat(6,1fr)}
 .hero-cta{flex-wrap:wrap}
 @media(min-width:900px) and (max-width:1150px){.topnav a{padding:8px 6px;font-size:.78rem}}
+
+/* Text and leaf icon make dietary labels readable without relying on color. */
+.diet-badge{display:inline-flex;align-items:center;align-self:flex-start;gap:6px;max-width:100%;padding:5px 10px;border-radius:999px;background:#e2efe3;color:#214c2d;border:1px solid #aec9af;font-size:.76rem;font-weight:700;line-height:1.4}
+.diet-badge svg{width:17px;height:17px;flex-shrink:0}
+.diet-badge.diet-request{background:#fff1d6;color:#664515;border-color:#d9bd84}
+.diet-note{padding:12px;border-left:3px solid #41754d;background:#f0f5ed;border-radius:0 8px 8px 0}
